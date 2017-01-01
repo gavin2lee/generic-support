@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lachesis.support.auth.repository.PermissionRepository">
+
+	<resultMap id="permissionMap"
+		type="com.lachesis.support.objects.entity.auth.Permission">
+		<id property="id" column="ID" />
+		<result property="code" column="CODE" />
+		<result property="name" column="NAME" />
+		<result property="label" column="LABEL" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="deleted" column="DELETED" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<select id="findOne" resultMap="permissionMap">
+		select * from T_PERMISSION where
+		ID = #{id}
+	</select>
+
+	<select id="findOneByName" resultMap="permissionMap">
+		select * from T_PERMISSION
+		where NAME = #{name} and DELETED = 0
+	</select>
+
+	<select id="findAll" resultMap="permissionMap">
+		select * from T_PERMISSION where
+		DELETED = 0
+	</select>
+
+	<select id="findByRoleId" resultMap="permissionMap">
+		select *
+		from T_PERMISSION p
+		inner join R_ROLE_PERMISSION rp
+		on p.ID = rp.PERMISSION_ID
+		where
+		p.DELETED = 0
+		and rp.ROLE_ID = #{roleId}
+	</select>
+
+	<insert id="insertOne" parameterType="Permission" useGeneratedKeys="true" keyProperty="id">
+		insert into T_PERMISSION
+		(CODE,NAME,LABEL,DESCRIPTION,DELETED)
+		values
+		(#{code},#{name},#{label},#{description},#{deleted})
+	</insert>
+
+	<update id="updateOne">
+		update T_PERMISSION
+		<set>
+			<if test="code != null and code != '' ">
+				CODE = #{code},
+			</if>
+			<if test=" name != null  and  name != ''">
+				NAME = #{name},
+			</if>
+			<if test=" label != null and  label != ''">
+				LABEL = #{label},
+			</if>
+			<if test=" description != null and description != ''">
+				DESCRIPTION = #{description},
+			</if>
+			<if test=" deleted != null">
+				DELETED = #{deleted, jdbcType=BOOLEAN}
+			</if>
+		</set>
+		where
+		ID = #{id}
+	</update>
+
+
+</mapper>

@@ -1,0 +1,7 @@
+http://localhost:9090/authc/api/v1/tokens
+Content-Type
+application/json
+
+http://localhost:9091/demo/api/v2/nurses?deptid=1'
+Authorization
+token m9BICpac3bHIzAFhrbVyrwIO2d2BE2rv5CgTkF9cO3z8DDiupt7LDg

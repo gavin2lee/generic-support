@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lachesis.support.auth.repository.TokenRepository">
+	<select id="selectOne" resultType="Token">
+		select TOKEN_VALUE tokenValue,
+		TERMINAL_IP terminalIp,
+		ACTIVE active,
+		LAST_MODIFIED lastModified,
+		USERNAME username,
+		PASSWORD password
+		from T_TOKEN
+		where TOKEN_VALUE = #{tokenValue}
+	</select>
+	
+	<select id="selectPage" resultType="Token">
+		select TOKEN_VALUE tokenValue,
+		TERMINAL_IP terminalIp,
+		ACTIVE active,
+		LAST_MODIFIED lastModified,
+		USERNAME username,
+		PASSWORD password
+		from T_TOKEN
+		where 1 = 1
+	</select>
+
+	<insert id="insertOne">
+		insert into T_TOKEN
+		(TOKEN_VALUE,TERMINAL_IP,ACTIVE,LAST_MODIFIED,USERNAME,PASSWORD)
+		values
+		(#{tokenValue},#{terminalIp},#{active},#{lastModified},#{username},#{password})
+	</insert>
+	
+	<insert id="insertBatch">
+		insert into T_TOKEN
+		(TOKEN_VALUE,TERMINAL_IP,ACTIVE,LAST_MODIFIED,USERNAME,PASSWORD)
+		values
+		<foreach item="item" collection="list" separator=",">
+		(#{item.tokenValue},#{item.terminalIp},#{item.active},#{item.lastModified},#{item.username},#{item.password})
+		</foreach>
+	</insert>
+
+	<update id="updateOne">
+		update T_TOKEN
+		<set>
+			<if test="terminalIp != null">
+				TERMINAL_IP = #{terminalIp},
+			</if>
+			<if test="active != null">
+				ACTIVE = #{active},
+			</if>
+			<if test=" lastModified != null">
+				LAST_MODIFIED = #{lastModified},
+			</if>
+			<if test=" username != null">
+				USERNAME = #{username},
+			</if>
+			<if test=" password != null">
+				PASSWORD = #{password}
+			</if>
+		</set>
+		where
+		TOKEN_VALUE = #{tokenValue}
+	</update>
+	
+	<delete id="deleteOne">
+		delete from T_TOKEN
+		where
+		TOKEN_VALUE = #{tokenValue}
+	</delete>
+</mapper>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lachesis.support.auth.repository.RoleRepository">
+
+	<resultMap id="roleMap" type="com.lachesis.support.objects.entity.auth.Role">
+		<id property="id" column="ID" />
+		<result property="code" column="CODE" />
+		<result property="name" column="NAME" />
+		<result property="label" column="LABEL" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="deleted" column="DELETED" jdbcType="BOOLEAN" />
+		<result property="createAt" column="CREATE_AT" jdbcType="DATE" />
+		<result property="createBy" column="CREATE_BY" />
+		<result property="updateAt" column="UPDATE_AT" jdbcType="DATE" />
+		<result property="updateBy" column="UPDATE_BY" />
+
+		<result property="dataSource" column="DATA_SOURCE" />
+
+		<collection property="permissions" ofType="Permission">
+			<id property="id" column="P_ID" />
+			<result property="code" column="P_CODE" />
+			<result property="name" column="P_NAME" />
+			<result property="label" column="P_LABEL" />
+			<result property="description" column="P_DESCRIPTION" />
+			<result property="deleted" column="P_DELETED" />
+		</collection>
+	</resultMap>
+
+	<select id="findOne" resultMap="roleMap">
+		select r.*,
+		p.ID as P_ID,
+		p.CODE as
+		P_CODE,
+		p.NAME as P_NAME,
+		p.LABEL as P_LABEL,
+		p.DESCRIPTION as
+		P_DESCRIPTION,
+		p.DELETED as P_DELETED
+		from T_ROLE r
+		left join
+		R_ROLE_PERMISSION rp
+		on r.ID = rp.ROLE_ID
+		left join T_PERMISSION p
+		on
+		p.ID = rp.PERMISSION_ID
+		where r.ID = #{id}
+	</select>
+
+	<select id="findOneByName" resultMap="roleMap">
+		select r.*,
+		p.ID as P_ID,
+		p.CODE as P_CODE,
+		p.NAME as P_NAME,
+		p.LABEL as P_LABEL,
+		p.DESCRIPTION as
+		P_DESCRIPTION,
+		p.DELETED as P_DELETED
+		from T_ROLE r
+		left join
+		R_ROLE_PERMISSION rp
+		on r.ID = rp.ROLE_ID
+		left join T_PERMISSION p
+		on
+		p.ID = rp.PERMISSION_ID
+		where
+		r.NAME = #{name}
+		and r.DELETED = 0
+	</select>
+
+	<select id="findAll" resultMap="roleMap">
+		select r.*,
+		p.ID as P_ID,
+		p.CODE as
+		P_CODE,
+		p.NAME as P_NAME,
+		p.LABEL as P_LABEL,
+		p.DESCRIPTION as
+		P_DESCRIPTION,
+		p.DELETED as P_DELETED
+		from T_ROLE r
+		left join
+		R_ROLE_PERMISSION rp
+		on r.ID = rp.ROLE_ID
+		left join T_PERMISSION p
+		on
+		p.ID = rp.PERMISSION_ID
+		where r.DELETED = 0
+	</select>
+
+	<select id="findByUserId" resultMap="roleMap">
+		select r.*,
+		p.ID as P_ID,
+		p.CODE as P_CODE,
+		p.NAME as P_NAME,
+		p.LABEL as P_LABEL,
+		p.DESCRIPTION as
+		P_DESCRIPTION,
+		p.DELETED as P_DELETED
+		from T_ROLE r
+		left join
+		R_ROLE_PERMISSION rp
+		on r.ID = rp.ROLE_ID
+		left join T_PERMISSION p
+		on
+		p.ID = rp.PERMISSION_ID
+		inner join R_USER_ROLE u
+		on r.ID = u.ROLE_ID
+		where r.DELETED = 0
+		and u.USER_ID = #{userId}
+	</select>
+
+	<insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
+		insert into T_ROLE
+		(
+		CODE,
+		NAME,
+		LABEL,
+		DESCRIPTION,
+		DELETED,
+		CREATE_AT,
+		CREATE_BY,
+		UPDATE_AT,
+		UPDATE_BY,
+		DATA_SOURCE
+		)
+		values
+		(
+		#{code},
+		#{name},
+		#{label},
+		#{description},
+		#{deleted},
+		#{createAt},
+		#{createBy},
+		#{updateAt},
+		#{updateBy},
+		#{dataSource}
+		)
+	</insert>
+
+	<update id="updateOne">
+		update T_ROLE
+		<set>
+			<if test="code != null and code != '' ">
+				CODE = #{code},
+			</if>
+			<if test="name != null and name != '' ">
+				NAME = #{name},
+			</if>
+			<if test="label != null and label != '' ">
+				LABEL = #{label},
+			</if>
+			<if test="description != null and description != '' ">
+				DESCRIPTION = #{description},
+			</if>
+			<if test="deleted != null">
+				DELETED = #{deleted},
+			</if>
+			<if test="createAt != null">
+				CREATE_AT = #{createAt, jdbcType=DATE},
+			</if>
+			<if test="createBy != null">
+				CREATE_BY = #{createBy},
+			</if>
+			<if test="updateAt != null">
+				UPDATE_AT = #{updateAt, jdbcType=DATE},
+			</if>
+			<if test="updateBy != null">
+				UPDATE_BY = #{updateBy},
+			</if>
+			<if test="dataSource != null and dataSource != '' ">
+				DATA_SOURCE = #{dataSource}
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<insert id="addPermission" useGeneratedKeys="true" keyProperty="id">
+		insert into R_ROLE_PERMISSION 
+		(
+			ROLE_ID,
+			PERMISSION_ID,
+			DELETED,
+			CREATE_AT,
+			CREATE_BY,
+			UPDATE_AT,
+			UPDATE_BY,
+			DATA_SOURCE
+		)
+		values
+		(
+			#{roleId},
+			#{permissionId},
+			#{deleted, jdbcType=TINYINT},
+			#{createAt, jdbcType=DATE},
+			#{createBy},
+			#{updateAt, jdbcType=DATE},
+			#{updateBy},
+			#{dataSource}
+		)
+	</insert>
+	
+	<insert id="addPermissions">
+		insert into R_ROLE_PERMISSION 
+		(
+			ROLE_ID,
+			PERMISSION_ID,
+			DELETED,
+			CREATE_AT,
+			CREATE_BY,
+			UPDATE_AT,
+			UPDATE_BY,
+			DATA_SOURCE
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+		(
+			#{item.roleId},
+			#{item.permissionId},
+			#{item.deleted, jdbcType=TINYINT},
+			#{item.createAt, jdbcType=DATE},
+			#{item.createBy},
+			#{item.updateAt, jdbcType=DATE},
+			#{item.updateBy},
+			#{item.dataSource}
+		)
+		</foreach>
+	</insert>
+
+	<delete id="deletePermission">
+		delete from R_ROLE_PERMISSION
+		where ROLE_ID = #{roleId}
+		and
+		PERMISSION_ID = #{perm.id}
+	</delete>
+
+	<delete id="deletePermissions">
+		delete from R_ROLE_PERMISSION
+		where ROLE_ID = #{roleId}
+		and
+		PERMISSION_ID in
+		<foreach collection="perms" item="item" index="index" open="("
+			separator="," close=")">
+			#{item.id}
+		</foreach>
+	</delete>
+
+</mapper>

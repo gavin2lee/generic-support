@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true">
+	<diskStore path="java.io.tmpdir"/>
+	
+	<cache name="authTokenCache"
+           maxEntriesLocalHeap="1000"
+           eternal="false"
+           overflowToDisk="true"
+           diskPersistent="true"
+           timeToIdleSeconds="1200"
+           timeToLiveSeconds="0"
+           diskExpiryThreadIntervalSeconds="1"
+           transactionalMode="off"
+           memoryStoreEvictionPolicy="LRU">
+           <!-- 
+           <cacheEventListenerFactory class="com.lachesis.support.auth.cache.TokenCacheEventListenerFactory" listenFor="all"/>
+            -->
+    </cache>
+    
+    <cache name="authorizationResultCache"
+           maxEntriesLocalHeap="1000"
+           eternal="false"
+           overflowToDisk="true"
+           diskPersistent="true"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="1200"
+           diskExpiryThreadIntervalSeconds="1"
+           transactionalMode="off"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
+
+         
+</ehcache>

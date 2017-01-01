@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lachesis.support.auth.repository.AuthRoleRepository">
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+	<select id="findById" resultType="AuthRole" useCache="true">
+		SELECT ID id,
+		CODE code,
+		NAME name,
+		LABEL label
+		FROM T_ROLE
+		WHERE ID = #{id}
+	</select>
+
+	<select id="findByIds" resultType="AuthUser" useCache="true">
+		SELECT ID id,
+		CODE code,
+		NAME name,
+		LABEL label
+		FROM T_ROLE
+		WHERE 1 = 1
+		AND ID in
+		<foreach item="item" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="findByUserId" resultType="AuthRole" useCache="true">
+		SELECT r.ID id,
+		r.CODE code,
+		r.NAME name,
+		r.LABEL label
+		FROM T_ROLE r
+		INNER JOIN R_USER_ROLE ur
+		ON r.ID = ur.ROLE_ID
+		WHERE 1 = 1
+		AND ur.USER_ID = #{userId}
+	</select>
+</mapper>

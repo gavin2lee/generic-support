@@ -1,0 +1,13 @@
+[mysql-proxy]
+user=root
+admin-username=msproxy
+admin-password=123456
+proxy-address=192.168.0.105:9999
+proxy-read-only-backend-addresses=192.168.0.105:3306
+proxy-backend-addresses=192.168.0.107:3306
+proxy-lua-script=/opt/mysql-proxy/share/doc/mysql-proxy/rw-splitting.lua
+admin-lua-script=/opt/mysql-proxy/share/doc/mysql-proxy/admin-sql.lua
+log-file=/opt/mysql-proxy/logs/mysql-proxy.log
+log-level=info
+daemon=true
+keepalive=true
