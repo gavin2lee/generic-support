@@ -1,5 +1,8 @@
 package com.lachesis.support.auth.demo.mongodb;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
@@ -21,10 +24,24 @@ public class MongodbClientPilot {
 		doc.append("password", "123456");
 		doc.append("gender", "M");
 		
-		db.createCollection("users");
 		
-		MongoCollection<Document>  collection = db.getCollection(collectionName);
+		MongoCollection<Document>  collection = null;
+		
+		collection = db.getCollection(collectionName);
+		
+		if(collection == null ){
+			db.createCollection("users");
+			collection = db.getCollection(collectionName);
+		}
 		collection.insertOne(doc);
+		
+		List<Document> docs = new ArrayList<Document>();
+		
+		for(int i=0; i < 10; i++){
+			docs.add(new Document("i", i));
+		}
+		
+		collection.insertMany(docs);
 		
 		mongoClient.close();
 	}
