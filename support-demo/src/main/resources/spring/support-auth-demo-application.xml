@@ -22,6 +22,4 @@
 	<import resource="support-auth-demo-datasource.xml"/>
 	<import resource="support-auth-demo-repository.xml"/>
 	<import resource="support-auth-demo-service.xml"/>
-	
-	<import resource="authorization-service-consumer.xml"/>
 </beans>

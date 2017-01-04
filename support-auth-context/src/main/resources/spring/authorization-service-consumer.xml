@@ -12,15 +12,12 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-	<dubbo:application name="authz-service-provider" />
+	<dubbo:application name="authz-service-consumer" />
 
-	<dubbo:registry address="multicast://224.5.6.7:1234" />
+	<dubbo:registry address="zookeeper://192.168.0.105:2181" />
 
 	<dubbo:protocol name="dubbo" port="20880" />
 
-	<dubbo:service interface="com.generic.support.service.AuthorizationService"
-		ref="concreteAuthorizationService" />
-
-	<bean id="concreteAuthorizationService"
-		class="com.generic.support.auth.api.service.ConcreteAuthorizationService" />
+	<dubbo:reference id="authorizationService"
+		interface="com.generic.support.service.AuthorizationService" />
 </beans>
