@@ -11,6 +11,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.lachesis.support.auth.context.comm.AuthorizationInfoProvider;
 import com.lachesis.support.auth.context.vo.AuthorizationInfoVO;
@@ -19,6 +20,7 @@ public class TokenAuthorizationRealm extends AuthorizingRealm {
 	private static final Logger LOG = LoggerFactory.getLogger(TokenAuthorizationRealm.class);
 	
 	@Autowired
+	@Qualifier("dubboAuthorizationInfoProvider")
 	private AuthorizationInfoProvider authorizationInfoProvider;
 	
 	public AuthorizationInfoProvider getAuthorizationInfoProvider() {

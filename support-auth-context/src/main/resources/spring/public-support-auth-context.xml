@@ -18,4 +18,5 @@
 	
 	<import resource="support-auth-context-comm.xml"/>
 	<import resource="support-auth-context-shiro.xml"/>
+	<import resource="authorization-service-provider.xml"/>
 </beans>
