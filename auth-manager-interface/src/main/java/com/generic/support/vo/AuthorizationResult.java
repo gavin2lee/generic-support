@@ -1,9 +1,14 @@
 package com.generic.support.vo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class AuthorizationResult {
+public class AuthorizationResult implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7384962346843326122L;
 	private String id;
 	private String username;
 	private Collection<String> roles = new ArrayList<String>();
