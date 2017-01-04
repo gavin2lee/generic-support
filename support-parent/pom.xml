@@ -38,6 +38,8 @@
 		<module>../support-auth-context</module>
 		<module>../support-restful-context</module>
 		<module>../support-auth-api</module>
+		<module>../auth-manager-interface</module>
+		<module>../auth-admin-api</module>
 		<module>../support-demo</module>
 		<module>../support-auth-aat</module>
 	</modules>
