@@ -12,7 +12,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @PropertySources({ @PropertySource(value="file:${user.home}/generic-support/support-auth-aat-global.properties",ignoreResourceNotFound=true) })
 public class TestConfig {
 	@Bean
-    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
        return new PropertySourcesPlaceholderConfigurer();
     }
 }

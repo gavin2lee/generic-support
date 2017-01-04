@@ -18,10 +18,10 @@
     <appender name="rollingFile"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Encoding>UTF-8</Encoding>
-        <File>logs/support-auth-context/main.log</File>
+        <File>../logs/support-auth-aat/main.log</File>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>log/main-%d{yyyyMMdd}.log
+            <FileNamePattern>../logs/support-auth-aat/main-%d{yyyyMMdd}.log
             </FileNamePattern>
             <MaxHistory>2</MaxHistory>
         </rollingPolicy>
@@ -31,10 +31,8 @@
         </encoder>
     </appender>
 
-    <logger name="com.lachesis.support.auth" level="debug">
-    <!-- 
-    	<appender-ref ref="console" />
-     -->
+    <logger name="com.lachesis.support.auth" level="debug" additivity="false">
+    	<appender-ref ref="rollingFile" />
     </logger> 
          
     <root level="warn">
