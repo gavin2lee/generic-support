@@ -1,2 +1,2 @@
-# lachesis-support
+# generic-support
 Unified Support Platform
