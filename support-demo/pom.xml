@@ -33,6 +33,12 @@
 			<artifactId>support-auth-context</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.generic.support</groupId>
+			<artifactId>auth-manager-interface</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.generic.support</groupId>
