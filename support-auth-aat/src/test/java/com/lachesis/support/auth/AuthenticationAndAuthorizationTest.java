@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,25 +31,34 @@ import com.lachesis.support.objects.vo.auth.AuthenticationResponseVO;
 @ContextConfiguration(classes={TestConfig.class})
 public class AuthenticationAndAuthorizationTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthenticationAndAuthorizationTest.class);
+	@Value("${aat.authc.host:127.0.0.1}")
 	String authcHost = "192.168.0.107";
-	int authcPort = 9090;
+	@Value("${aat.authc.port:9090}")
+	String authcPort = "9090";
+	@Value("${aat.authc.version:v1}")
 	String authcVersion = "v1";
+	@Value("${aat.biz.host:127.0.0.1}")
 	String bizHost = "192.168.0.105";
-	int bizPort = 9091;
+	@Value("${aat.biz.port:9091}")
+	String bizPort = "9091";
+	@Value("${aat.biz.version:v1}")
 	String bizVersion = "v1";
 
 	static final int TEN_THOUSAND = 1000 * 10;
 
 	static final int MAX_ROUND_IN_BATCH_TEST = TEN_THOUSAND * 5;
 
-	String authcBaseUrl = String.format("http://%s:%d/authc/api/%s/tokens", authcHost,authcPort,authcVersion);
-	String appServerBaseUrl = String.format("http://%s:%d/demo/api/%s/nurses", bizHost,bizPort,bizVersion);
+	String authcBaseUrl = null;
+	String appServerBaseUrl = null;
 
 	RestTemplate restTemplate;
 	ObjectMapper mapper = new ObjectMapper();
 
 	@Before
 	public void setUp() throws Exception {
+		authcBaseUrl = String.format("http://%s:%s/authc/api/%s/tokens", authcHost,authcPort,authcVersion);
+		appServerBaseUrl = String.format("http://%s:%s/demo/api/%s/nurses", bizHost,bizPort,bizVersion);
+
 		restTemplate = new RestTemplate();
 		prepareUserData();
 	}
