@@ -24,6 +24,12 @@
 
 		<dependency>
 			<groupId>com.generic.support</groupId>
+			<artifactId>auth-manager-interface</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.generic.support</groupId>
 			<artifactId>support-restful-context</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -53,6 +59,26 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- === dubbo === -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.5.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.4.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.10</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -74,7 +100,7 @@
 				<configuration>
 					<uriEncoding>UTF-8</uriEncoding>
 					<port>9090</port>
-                    <path>/authc</path>
+					<path>/authc</path>
 				</configuration>
 			</plugin>
 		</plugins>
