@@ -52,6 +52,19 @@ public class RedisTokenService implements TokenService {
 	
 	protected void updateLastModifiedToken(Token token){
 		HashOperations<String,String,String> hashOps = redisTemplate.opsForHash();
+		
+		String sExistingJson = hashOps.get(REDIS_TOKEN_HASH_KEY, token.getTokenValue());
+		
+		Token existingToken = null;
+		if(sExistingJson != null){
+			existingToken = CommonBeanUtils.toObject(sExistingJson, Token.class);
+		}
+		
+		if(existingToken != null){
+			existingToken.setLastModified(token.getLastModified());
+			token = existingToken;
+		}
+				
 		String sJson = CommonBeanUtils.toJson(token);
 		if(sJson == null){
 			return;
