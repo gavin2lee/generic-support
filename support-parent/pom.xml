@@ -43,19 +43,10 @@
 		<module>../support-demo</module>
 		<module>../support-auth-aat</module>
 	</modules>
-	<!--
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<url>http://10.2.2.10:8081/nexus/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>Nexus Snapshot Repository</name>
-			<url>http://10.2.2.10:8081/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
--->
+	<!-- <distributionManagement> <repository> <id>releases</id> <url>http://10.2.2.10:8081/nexus/content/repositories/releases</url> 
+		</repository> <snapshotRepository> <id>snapshots</id> <name>Nexus Snapshot 
+		Repository</name> <url>http://10.2.2.10:8081/nexus/content/repositories/snapshots/</url> 
+		</snapshotRepository> </distributionManagement> -->
 
 	<dependencies>
 		<dependency>
@@ -138,6 +129,21 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-redis</artifactId>
+				<version>1.7.6.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mongodb</groupId>
+				<artifactId>mongodb-driver</artifactId>
+				<version>3.4.1</version>
+			</dependency>
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>2.9.0</version>
+			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>

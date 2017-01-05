@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lachesis.support.auth.data.TokenService;
 import com.lachesis.support.auth.token.AuthTokenManager;
 import com.lachesis.support.auth.token.TokenStorageStrategy;
 import com.lachesis.support.objects.entity.auth.Token;
@@ -18,15 +17,6 @@ public class LocalAuthTokenManager implements AuthTokenManager {
 
 	@Autowired
 	private TokenStorageStrategy tokenStorageStrategy;
-
-	@Autowired
-	private TokenService tokenService;
-
-	private boolean loadFromDatabase = true;
-
-	protected void setLoadFromDatabase(boolean loadFromDatabase) {
-		this.loadFromDatabase = loadFromDatabase;
-	}
 
 	public void setTokenStorageStrategy(TokenStorageStrategy tokenStorageStrategy) {
 		this.tokenStorageStrategy = tokenStorageStrategy;
@@ -57,11 +47,6 @@ public class LocalAuthTokenManager implements AuthTokenManager {
 	@Override
 	public Token retrieve(String tokenValue) {
 		Token token = tokenStorageStrategy.find(tokenValue);
-
-		if ( (token == null) && loadFromDatabase) {
-			token = tokenService.findByTokenValue(tokenValue);
-			store(token);
-		}
 		
 		return token;
 	}
