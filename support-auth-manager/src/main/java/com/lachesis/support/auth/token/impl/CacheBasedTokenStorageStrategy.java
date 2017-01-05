@@ -17,6 +17,7 @@ public class CacheBasedTokenStorageStrategy implements TokenStorageStrategy {
 	private static final Logger LOG = LoggerFactory.getLogger(CacheBasedTokenStorageStrategy.class);
 	
 	@Autowired
+	@Qualifier("defaultAuthCacheProvider")
 	private AuthCacheProvider authCacheProvider;
 	
 	@Autowired

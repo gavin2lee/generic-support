@@ -15,12 +15,12 @@
 	<context:property-placeholder
 		properties-ref="cryptProperties"
 		local-override="true"
-		location="file:${user.home}/lachesis-config/support-auth-data-access.properties" ignore-unresolvable="true"/>
+		location="file:${user.home}/generic-support/support-auth-data-access.properties" ignore-unresolvable="true"/>
 		
 	<bean id="cryptProperties"
 		class="com.lachesis.support.common.util.bean.CryptPropertiesFactoryBean">
 		<property name="location"
-			value="file:${user.home}/lachesis-config/support-auth-data-access.properties" />
+			value="file:${user.home}/generic-support/support-auth-data-access.properties" />
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 	

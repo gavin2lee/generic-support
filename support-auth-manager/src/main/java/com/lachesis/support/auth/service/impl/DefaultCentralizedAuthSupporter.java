@@ -3,6 +3,7 @@ package com.lachesis.support.auth.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.lachesis.support.auth.authentication.AuthenticatorProvider;
@@ -32,6 +33,7 @@ public class DefaultCentralizedAuthSupporter extends AbstractCentralizedAuthSupp
 	@Autowired
 	private TokenVerifier tokenVerifier;
 	@Autowired
+	@Qualifier("defaultAuthCacheProvider")
 	private AuthCacheProvider authCacheProvider;
 
 	protected AuthenticationResult doAuthenticate(String username, String password, String terminalIpAddress) {

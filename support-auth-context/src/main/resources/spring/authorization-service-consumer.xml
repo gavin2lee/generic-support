@@ -11,10 +11,14 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<context:property-placeholder
+		location="classpath:support-auth-context-comm.properties,
+		file:${user.home}/generic-support/support-auth-context-comm.properties"
+		ignore-unresolvable="true" ignore-resource-not-found="true" />
 
 	<dubbo:application name="authz-service-consumer" />
 
-	<dubbo:registry address="zookeeper://192.168.0.105:2181" />
+	<dubbo:registry address="${support.auth.context.dubbo.registry.address}" />
 
 	<dubbo:protocol name="dubbo" port="20880" />
 
