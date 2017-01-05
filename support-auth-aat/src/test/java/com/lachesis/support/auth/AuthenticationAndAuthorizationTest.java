@@ -32,17 +32,17 @@ import com.lachesis.support.objects.vo.auth.AuthenticationResponseVO;
 public class AuthenticationAndAuthorizationTest {
 	static final Logger LOG = LoggerFactory.getLogger(AuthenticationAndAuthorizationTest.class);
 	@Value("${aat.authc.host:127.0.0.1}")
-	String authcHost = "192.168.0.107";
+	String authcHost;
 	@Value("${aat.authc.port:9090}")
-	String authcPort = "9090";
+	String authcPort;
 	@Value("${aat.authc.version:v1}")
-	String authcVersion = "v1";
+	String authcVersion;
 	@Value("${aat.biz.host:127.0.0.1}")
-	String bizHost = "192.168.0.105";
+	String bizHost;
 	@Value("${aat.biz.port:9091}")
-	String bizPort = "9091";
+	String bizPort;
 	@Value("${aat.biz.version:v1}")
-	String bizVersion = "v1";
+	String bizVersion;
 
 	static final int TEN_THOUSAND = 1000 * 10;
 
