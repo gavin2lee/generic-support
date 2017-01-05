@@ -28,6 +28,7 @@ public class TokenSynchronizerManager {
 	private TokenQueueBroker tokenQueueBroker;
 
 	@Autowired
+	@Qualifier("redisTokenService")
 	private TokenService tokenService;
 
 	@Value("${support.auth.manager.synchronizers.default.disable:false}")

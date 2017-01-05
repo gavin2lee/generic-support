@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.lachesis.support.auth.annotation.RepositoryTestContext;
+import com.generic.support.admin.annotation.RepositoryTestContext;
 import com.lachesis.support.auth.common.AuthConstants;
 import com.lachesis.support.objects.entity.auth.Permission;
 import com.lachesis.support.objects.entity.auth.Role;

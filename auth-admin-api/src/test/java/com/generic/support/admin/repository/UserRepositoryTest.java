@@ -3,7 +3,8 @@ package com.generic.support.admin.repository;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.lachesis.support.auth.annotation.RepositoryTestContext;
+import com.generic.support.admin.annotation.RepositoryTestContext;
 import com.lachesis.support.objects.entity.auth.Role;
 import com.lachesis.support.objects.entity.auth.User;
 import com.lachesis.support.objects.entity.auth.UserRole;
