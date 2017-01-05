@@ -1,4 +1,4 @@
-package com.generic.support.controller;
+package com.generic.support.admin.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lachesis.support.auth.data.UserDataService;
+import com.generic.support.admin.service.UserDataService;
 import com.lachesis.support.objects.entity.auth.Role;
 import com.lachesis.support.objects.entity.auth.User;
 import com.lachesis.support.restful.context.vo.ResponseVO;

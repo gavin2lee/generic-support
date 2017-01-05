@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.repository;
+package com.generic.support.admin.repository;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;

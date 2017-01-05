@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.repository;
+package com.generic.support.admin.repository;
 
 import java.util.List;
 

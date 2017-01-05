@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.data.impl;
+package com.generic.support.admin.service.impl;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lachesis.support.auth.data.PermissionService;
-import com.lachesis.support.auth.repository.PermissionRepository;
+import com.generic.support.admin.repository.PermissionRepository;
+import com.generic.support.admin.service.PermissionService;
 import com.lachesis.support.common.util.text.TextUtils;
 import com.lachesis.support.objects.entity.auth.Permission;
 

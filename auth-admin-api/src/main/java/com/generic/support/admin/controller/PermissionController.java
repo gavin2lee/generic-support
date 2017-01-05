@@ -1,4 +1,4 @@
-package com.generic.support.controller;
+package com.generic.support.admin.controller;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lachesis.support.auth.data.PermissionService;
+import com.generic.support.admin.service.PermissionService;
 import com.lachesis.support.objects.entity.auth.Permission;
 import com.lachesis.support.restful.context.vo.ResponseVO;
 

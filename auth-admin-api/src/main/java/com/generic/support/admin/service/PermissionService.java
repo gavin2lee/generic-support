@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.data;
+package com.generic.support.admin.service;
 
 import java.util.List;
 

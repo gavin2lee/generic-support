@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.data;
+package com.generic.support.admin.service;
 
 import com.lachesis.support.objects.entity.auth.Role;
 import com.lachesis.support.objects.entity.auth.User;

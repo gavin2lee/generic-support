@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.data.impl;
+package com.generic.support.admin.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.generic.support.admin.repository.RoleRepository;
+import com.generic.support.admin.repository.UserRepository;
+import com.generic.support.admin.service.UserDataService;
 import com.lachesis.support.auth.common.AuthConstants;
-import com.lachesis.support.auth.data.UserDataService;
-import com.lachesis.support.auth.repository.RoleRepository;
-import com.lachesis.support.auth.repository.UserRepository;
 import com.lachesis.support.common.util.text.TextUtils;
 import com.lachesis.support.objects.entity.auth.Role;
 import com.lachesis.support.objects.entity.auth.User;
