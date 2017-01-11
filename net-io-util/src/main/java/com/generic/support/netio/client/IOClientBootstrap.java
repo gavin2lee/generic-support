@@ -6,6 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.generic.support.netio.client.bio.BioTimeStampEchoClient;
+
 public class IOClientBootstrap {
 	private static final Logger log = LoggerFactory.getLogger(IOClientBootstrap.class);
 	private String defaultHost = "localhost";
@@ -18,12 +20,12 @@ public class IOClientBootstrap {
 	private int threads;
 	private int times = 100;
 
-	private String defaultClientClassName = "com.generic.support.netio.client.bio.BioTimeStampEchoClient";
+	private String defaultClientClassName = BioTimeStampEchoClient.class.getName();
 	private Class<?> clientClass;
 
 	public void boot() {
 		setInitParams();
-		log.debug(String.format("%s [host:%s,port:%d,times:%d]", IOClientBootstrap.class.getSimpleName(), host, port,
+		log.debug(String.format("%s [host:%s,port:%d,times:%d]", clientClass.getSimpleName(), host, port,
 				times));
 		Constructor<?> constructor;
 		try {
