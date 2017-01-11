@@ -26,7 +26,8 @@ public class SentenceGenerator {
 		String path = SentenceGenerator.class.getClassLoader().getResource(poemFilename).getPath();
 		try {
 			List<String> lines = FileUtils.readLines(new File(path), "UTF-8");
-			sentences = (String[]) lines.toArray();
+			String[] buf = new String[lines.size()];
+			sentences = lines.toArray(buf);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
