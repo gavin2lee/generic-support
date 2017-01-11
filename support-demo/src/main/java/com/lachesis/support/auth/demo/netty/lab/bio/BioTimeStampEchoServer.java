@@ -34,6 +34,7 @@ public class BioTimeStampEchoServer implements IOServer {
 			while (true) {
 				Socket s = server.accept();
 				try {
+					log.debug("receive from "+s.getRemoteSocketAddress().toString());
 					socketCallback(s);
 				} catch (Exception e) {
 					log.error("", e);
