@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.demo.netty.lab.bio;
+package com.generic.support.netio.netty.lab.bio;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lachesis.support.auth.demo.netty.lab.IOServer;
+import com.generic.support.netio.netty.lab.IOServer;
 
 public class BioTimeStampEchoServer implements IOServer {
 	private static final Logger log = LoggerFactory.getLogger(BioTimeStampEchoServer.class);

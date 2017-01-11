@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.demo.netty.lab;
+package com.generic.support.netio.netty.lab;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

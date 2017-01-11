@@ -14,6 +14,7 @@
 
 	<modules>
 		<module>support-parent</module>
+                <module>net-io-util</module>
 		
 	</modules>
 

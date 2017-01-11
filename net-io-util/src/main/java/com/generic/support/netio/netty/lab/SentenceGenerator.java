@@ -1,4 +1,4 @@
-package com.lachesis.support.auth.demo.netty.lab;
+package com.generic.support.netio.netty.lab;
 
 public class SentenceGenerator {
 	public String generate(){
