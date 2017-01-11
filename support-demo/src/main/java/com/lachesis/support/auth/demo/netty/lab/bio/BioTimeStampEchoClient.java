@@ -33,6 +33,7 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 
 	@Override
 	public void kickoff() throws Exception {
+		long st = System.currentTimeMillis();
 		Socket client = new Socket(host, port);
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -53,6 +54,9 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 			print.close();
 			client.close();
 		}
+		
+		long end = System.currentTimeMillis();
+		log.info("TIME ELAPSE:" + ((end-st)/1000.0) + " seconds");
 
 	}
 
