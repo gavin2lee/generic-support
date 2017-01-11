@@ -18,10 +18,10 @@
     <appender name="rollingFile"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Encoding>UTF-8</Encoding>
-        <File>../logs/support-demo-main.log</File>
+        <File>../logs/net-io-util.log</File>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>../logs/support-demo-main-%d{yyyyMMdd}.log
+            <FileNamePattern>../logs/net-io-util-%d{yyyyMMdd}.log
             </FileNamePattern>
             <MaxHistory>2</MaxHistory>
         </rollingPolicy>
@@ -36,7 +36,7 @@
     	<appender-ref ref="rollingFile" />
     </logger>
    -->      
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="rollingFile"/>
     </root>
 </configuration>

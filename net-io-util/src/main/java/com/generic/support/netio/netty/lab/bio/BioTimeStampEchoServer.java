@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import com.generic.support.netio.netty.lab.IOServer;
 
 public class BioTimeStampEchoServer implements IOServer {
 	private static final Logger log = LoggerFactory.getLogger(BioTimeStampEchoServer.class);
+	private AtomicLong count = new AtomicLong();
 
 	public void start(int port) throws Exception {
 		ServerSocket server = new ServerSocket(port);
@@ -34,7 +36,7 @@ public class BioTimeStampEchoServer implements IOServer {
 			while (true) {
 				Socket s = server.accept();
 				try {
-					log.debug("receive from "+s.getRemoteSocketAddress().toString());
+					log.debug("receive from "+s.getRemoteSocketAddress().toString() + "  " + count.incrementAndGet());
 					socketCallback(s);
 				} catch (Exception e) {
 					log.error("", e);
