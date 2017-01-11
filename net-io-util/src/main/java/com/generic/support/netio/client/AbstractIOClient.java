@@ -1,4 +1,4 @@
-package com.generic.support.netio.lab;
+package com.generic.support.netio.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

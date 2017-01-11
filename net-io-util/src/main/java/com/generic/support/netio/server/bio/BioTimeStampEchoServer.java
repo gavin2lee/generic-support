@@ -1,4 +1,4 @@
-package com.generic.support.netio.lab.bio;
+package com.generic.support.netio.server.bio;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.generic.support.netio.lab.IOServer;
+import com.generic.support.netio.server.IOServer;
 
 public class BioTimeStampEchoServer implements IOServer {
 	private static final Logger log = LoggerFactory.getLogger(BioTimeStampEchoServer.class);

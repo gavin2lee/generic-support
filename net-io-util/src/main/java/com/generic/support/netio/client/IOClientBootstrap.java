@@ -1,9 +1,9 @@
-package com.generic.support.netio.lab;
+package com.generic.support.netio.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.generic.support.netio.lab.bio.BioTimeStampEchoClient;
+import com.generic.support.netio.client.bio.BioTimeStampEchoClient;
 
 public class IOClientBootstrap {
 	private static final Logger log = LoggerFactory.getLogger(IOClientBootstrap.class);

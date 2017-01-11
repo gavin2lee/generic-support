@@ -1,4 +1,4 @@
-package com.generic.support.netio.lab;
+package com.generic.support.netio.server;
 
 public interface IOServer {
 	String CLOSE_SIG = "shutdown";

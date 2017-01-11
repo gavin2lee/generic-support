@@ -1,16 +1,16 @@
-package com.generic.support.netio.lab;
+package com.generic.support.netio.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.generic.support.netio.lab.bio.BioTimeStampEchoServer;
-
 public class IOServerBootstrap {
 	public static final int PORT = 9009;
 	private static final Logger log = LoggerFactory.getLogger(IOServerBootstrap.class);
-	private static final IOServer SERVER = new BioTimeStampEchoServer();
+	private static IOServer SERVER = null;
+	
 
 	public static void main(String[] args) {
+		initServer(args);
 		log.info(String.format("start %s %d", SERVER.getClass().getSimpleName(), PORT));
 		try {
 			SERVER.start(PORT);
@@ -19,6 +19,19 @@ public class IOServerBootstrap {
 			log.error("", e);
 		}
 
+	}
+	
+	private static void initServer(String[] args){
+		String serverClassName = "com.generic.support.netio.server.bio.BioTimeStampEchoServer";
+		if(args.length > 0){
+			serverClassName = args[0];
+		}
+		try {
+			Class<?> serverClass = Class.forName(serverClassName);
+			SERVER = (IOServer) serverClass.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

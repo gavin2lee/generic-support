@@ -1,4 +1,4 @@
-package com.generic.support.netio.lab.bio;
+package com.generic.support.netio.client.bio;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,9 +8,9 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.generic.support.netio.lab.AbstractIOClient;
-import com.generic.support.netio.lab.IOServer;
-import com.generic.support.netio.lab.SentenceGenerator;
+import com.generic.support.netio.bean.SentenceGenerator;
+import com.generic.support.netio.client.AbstractIOClient;
+import com.generic.support.netio.server.IOServer;
 
 public class BioTimeStampEchoClient extends AbstractIOClient {
 	private static int DEFAULT_TIMES = 1;
