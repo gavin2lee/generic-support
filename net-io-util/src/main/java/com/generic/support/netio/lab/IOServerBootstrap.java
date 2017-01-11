@@ -1,9 +1,9 @@
-package com.generic.support.netio.netty.lab;
+package com.generic.support.netio.lab;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.generic.support.netio.netty.lab.bio.BioTimeStampEchoServer;
+import com.generic.support.netio.lab.bio.BioTimeStampEchoServer;
 
 public class IOServerBootstrap {
 	public static final int PORT = 9009;

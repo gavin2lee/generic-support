@@ -1,4 +1,4 @@
-package com.generic.support.netio.netty;
+package com.generic.support.netio.netty.example;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;

@@ -1,4 +1,4 @@
-package com.generic.support.netio.netty;
+package com.generic.support.netio.netty.example;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

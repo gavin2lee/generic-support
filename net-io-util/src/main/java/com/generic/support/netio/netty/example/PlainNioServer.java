@@ -1,4 +1,4 @@
-package com.generic.support.netio.netty;
+package com.generic.support.netio.netty.example;
 
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
