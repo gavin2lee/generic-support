@@ -1,4 +1,4 @@
-package com.generic.support.netio.client;
+package com.generic.support.netio.bootstrap;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.generic.support.netio.client.IOClient;
 import com.generic.support.netio.client.bio.BioTimeStampEchoClient;
 
 public class IOClientBootstrap {
