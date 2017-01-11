@@ -2,6 +2,7 @@ package com.generic.support.netio.bootstrap;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,13 @@ public class IOClientBootstrap {
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException cause){
 				throw new RuntimeException(cause);
 			}
-			new Thread(client).start();
+			Thread t = new Thread(client);
+			t.start();
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				log.error("", e);
+			}
 		}
 	}
 
@@ -66,7 +73,22 @@ public class IOClientBootstrap {
 	}
 
 	public static void main(String[] args) {
+		Date stTime = new Date();
+		final long st = System.currentTimeMillis();
+		Runtime.getRuntime().addShutdownHook(new Thread(){
+
+			@Override
+			public void run() {
+				long end = System.currentTimeMillis();
+				double seconds = (end - st)/1000.0;
+				log.warn(String.format("%s shutdown and elapse %s seconds", IOClientBootstrap.class.getSimpleName(), seconds));
+			}
+			
+		});
 		new IOClientBootstrap().boot();
+		Date endTime = new Date();
+		log.debug("bootstrap start at " + stTime.toString());
+		log.debug("bootstrap end at " + endTime.toString());
 	}
 
 }
