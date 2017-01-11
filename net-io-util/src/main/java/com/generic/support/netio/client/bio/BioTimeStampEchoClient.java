@@ -38,20 +38,23 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-		PrintStream print = new PrintStream(client.getOutputStream());
+		PrintStream printer = new PrintStream(client.getOutputStream());
 		try {
 			for (int i = 0; i < times; i++) {
 				String line = sentenceGenerator.generate();
-				print.println(line);
+				printer.print(line);
+				printer.println();
+				printer.flush();
+				log.debug("SEND \t" + i + " >>> " + line);
 				String revLine = reader.readLine();
-				log.debug(revLine + "  > "+(i+1));
+				log.debug("RECV \t" + i + " <<< " + revLine + "  "+(i+1));
 			}
 		} finally {
-			print.println(IOServer.CLOSE_SIG);
-			print.flush();
+			printer.println(IOServer.CLOSE_SIG);
+			printer.flush();
 
 			reader.close();
-			print.close();
+			printer.close();
 			client.close();
 		}
 		

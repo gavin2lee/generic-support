@@ -1,5 +1,7 @@
 package com.generic.support.netio.server.netty;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +24,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class NettyTimeStampEchoServer implements IOServer {
 	private static final Logger log = LoggerFactory.getLogger(NettyTimeStampEchoServer.class);
+	private static final AtomicLong counter = new AtomicLong();
 
 	@Override
 	public void start(int port) throws Exception {
@@ -62,7 +65,7 @@ public class NettyTimeStampEchoServer implements IOServer {
 			byte [] buf = new byte[msg.readableBytes()];
 			msg.readBytes(buf);
 			String recvMsg = new String(buf, "UTF-8");
-			log.debug("RECV:" + recvMsg);
+			log.debug(Thread.currentThread().getName() + " - RECV " + counter.incrementAndGet() + ":" + recvMsg);
 			EchoMessage echoMsg = echoMessageFactory.create(recvMsg);
 			ByteBuf resp = Unpooled.copiedBuffer(echoMsg.toString().getBytes("UTF-8"));
 			ctx.write(resp);

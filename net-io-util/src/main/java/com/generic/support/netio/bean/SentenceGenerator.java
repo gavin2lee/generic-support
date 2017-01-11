@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class SentenceGenerator {
 	private String[] sentences;
+	private String stripChars = "\n \t";
 	
 	private String poemFilename = "changhenge-poem.txt";
 	public SentenceGenerator(){
@@ -19,7 +21,7 @@ public class SentenceGenerator {
 	public String generate(){
 		Random r = new Random();
 		int index = r.nextInt(sentences.length);
-		return sentences[index];
+		return StringUtils.strip(sentences[index], stripChars);
 	}
 	
 	protected void init(){
