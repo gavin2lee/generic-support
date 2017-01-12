@@ -54,6 +54,7 @@ public class BioTimeStampEchoServer implements IOServer {
 
 	public static class SocketHandler implements Runnable {
 		private Socket socket;
+		private static final AtomicLong counter = new AtomicLong();
 
 		public SocketHandler(Socket socket) {
 			this.socket = socket;
@@ -97,6 +98,7 @@ public class BioTimeStampEchoServer implements IOServer {
 			String line = null;
 			try {
 				while ((line = reader.readLine()) != null) {
+					log.debug(Thread.currentThread().getName() + " - RECV " + counter.incrementAndGet() + ":" + line);
 					if (IOServer.CLOSE_SIG.equalsIgnoreCase(line)) {
 						return false;
 					}
