@@ -24,8 +24,9 @@ public class EnvPrinter {
 
 		Enumeration<?> propNames = sysProps.propertyNames();
 		while (propNames.hasMoreElements()) {
-			log.info(String.format("%s:%s", (String) propNames.nextElement(),
-					System.getProperty((String) propNames.nextElement())));
+			String propName = (String) propNames.nextElement();
+			log.info(String.format("%s:%s", propName,
+					System.getProperty(propName)));
 		}
 	}
 
