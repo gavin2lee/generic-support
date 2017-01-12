@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.generic.support.netio.client.bio.BioTimeStampEchoClient;
+import com.generic.support.netio.server.IOServer;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -103,6 +104,9 @@ public class NettyTimeStampEchoClient extends BioTimeStampEchoClient {
 			byte [] sendMsg = line.getBytes("UTF-8");
 			ByteBuf sendMsgBuf = Unpooled.buffer(sendMsg.length);
 			sendMsgBuf.writeBytes(sendMsg);
+			
+			ByteBuf delimiterBuf = Unpooled.copiedBuffer(LINE_SEPARATOR.getBytes(STRING_ENCODING));
+			ctx.write(delimiterBuf);
 			
 			log.debug(Thread.currentThread().getName() +  "  SEND " + sendCounter.incrementAndGet() + " >>> " + line);
 			

@@ -1,5 +1,7 @@
 package com.generic.support.netio.client;
 
-public interface IOClient extends Runnable{
+import com.generic.support.netio.IOConstants;
+
+public interface IOClient extends Runnable, IOConstants{
 	void kickoff() throws Exception;
 }
