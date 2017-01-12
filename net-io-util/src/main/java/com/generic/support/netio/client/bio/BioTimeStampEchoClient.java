@@ -63,6 +63,36 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 
 	}
 
-	
+	protected int getTimes() {
+		return times;
+	}
+
+	protected void setTimes(int times) {
+		this.times = times;
+	}
+
+	protected String getHost() {
+		return host;
+	}
+
+	protected void setHost(String host) {
+		this.host = host;
+	}
+
+	protected int getPort() {
+		return port;
+	}
+
+	protected void setPort(int port) {
+		this.port = port;
+	}
+
+	protected SentenceGenerator getSentenceGenerator() {
+		return sentenceGenerator;
+	}
+
+	protected void setSentenceGenerator(SentenceGenerator sentenceGenerator) {
+		this.sentenceGenerator = sentenceGenerator;
+	}
 
 }

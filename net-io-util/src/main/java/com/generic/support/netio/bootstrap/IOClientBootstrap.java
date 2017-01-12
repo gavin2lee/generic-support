@@ -71,6 +71,8 @@ public class IOClientBootstrap {
 		this.port = port;
 		this.threads = threads;
 		this.times = times;
+		
+		log.info("INIT:" + toString());
 	}
 
 	public static void main(String[] args) {
@@ -90,6 +92,12 @@ public class IOClientBootstrap {
 		Date endTime = new Date();
 		log.debug("bootstrap start at " + stTime.toString());
 		log.debug("bootstrap end at " + endTime.toString());
+	}
+
+	@Override
+	public String toString() {
+		return "IOClientBootstrap [host=" + host + ", port=" + port + ", threads=" + threads + ", times=" + times
+				+ ", clientClass=" + clientClass + "]";
 	}
 
 }

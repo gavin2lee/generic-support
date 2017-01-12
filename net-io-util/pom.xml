@@ -227,12 +227,12 @@
 								<argument>-Dport=${support.netio.bootstrap.server.port}</argument>
 								<argument>-Dthreads=${support.netio.bootstrap.client.threads}</argument>
 								<argument>-Dtimes=${support.netio.bootstrap.client.times}</argument>
+								<argument>-Dclient=${support.netio.bootstrap.client.classname}</argument>
 
 								<argument>-classpath</argument>
 								<classpath />
 
 								<argument>com.generic.support.netio.bootstrap.IOClientBootstrap</argument>
-								<argument>${support.netio.bootstrap.client.classname}</argument>
 							</arguments>
 						</configuration>
 					</plugin>
