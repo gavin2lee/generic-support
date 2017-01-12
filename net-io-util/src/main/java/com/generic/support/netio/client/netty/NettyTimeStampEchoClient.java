@@ -63,7 +63,8 @@ public class NettyTimeStampEchoClient extends BioTimeStampEchoClient {
 	}
 
 	public class NettyTimeStampEchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
-		private  AtomicLong counter = new AtomicLong();
+		private  AtomicLong receiveCounter = new AtomicLong();
+		private  AtomicLong sendCounter = new AtomicLong();
 		
 		@Override
 		public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -76,22 +77,24 @@ public class NettyTimeStampEchoClient extends BioTimeStampEchoClient {
 			msg.readBytes(buf);
 			
 			String recvMsg = new String(buf, "UTF-8");
-			log.debug(Thread.currentThread().getName() + " - RECV " + counter.incrementAndGet() + ":" + recvMsg);
+			log.debug(Thread.currentThread().getName() + " - RECV " + receiveCounter.incrementAndGet() + ":" + recvMsg);
 			
-			sendMsg(ctx);
+			
 
 		}
 		
 		@Override
 		public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-			while(counter.get() >= getTimes()){
-				log.warn(String.format("counter:%d - maxtimes:%d - going to close.", counter.get(), getTimes()));
+			while(sendCounter.get() > getTimes()){
+				log.warn(String.format("send counter:%d - maxtimes:%d - going to close.", sendCounter.get(), getTimes()));
 				ctx.flush();
 				ctx.disconnect();
 				ctx.close();
 				
-				break;
+				return;
 			}
+			
+			sendMsg(ctx);
 		}
 
 		protected void sendMsg(ChannelHandlerContext ctx) throws Exception{
@@ -100,6 +103,8 @@ public class NettyTimeStampEchoClient extends BioTimeStampEchoClient {
 			byte [] sendMsg = line.getBytes("UTF-8");
 			ByteBuf sendMsgBuf = Unpooled.buffer(sendMsg.length);
 			sendMsgBuf.writeBytes(sendMsg);
+			
+			log.debug(Thread.currentThread().getName() +  "  SEND " + sendCounter.incrementAndGet() + " >>> " + line);
 			
 			ctx.writeAndFlush(sendMsgBuf);
 		}

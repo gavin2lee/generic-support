@@ -35,7 +35,7 @@ public class NettyTimeStampEchoServer implements IOServer {
 			ServerBootstrap sb = new ServerBootstrap();
 			sb.group(bossGrp, workerGrp);
 			sb.channel(NioServerSocketChannel.class);
-			sb.option(ChannelOption.SO_BACKLOG, 1024);
+			sb.option(ChannelOption.SO_BACKLOG, BACKLOG_SIZE);
 			sb.childHandler(new NettyTimeStampEchoServerChildHandler());
 
 			ChannelFuture f = sb.bind(port).sync();
