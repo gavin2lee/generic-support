@@ -25,6 +25,7 @@ public class IOClientBootstrap {
 	private String defaultClientClassName = BioTimeStampEchoClient.class.getName();
 	private Class<?> clientClass;
 
+	//com.generic.support.netio.client.bio.BioTimeStampEchoClient
 	public void boot() {
 		setInitParams();
 		log.debug(String.format("%s [host:%s,port:%d,times:%d]", clientClass.getSimpleName(), host, port,

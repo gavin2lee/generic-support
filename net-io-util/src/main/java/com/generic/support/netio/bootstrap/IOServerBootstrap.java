@@ -7,37 +7,52 @@ import com.generic.support.netio.server.IOServer;
 import com.generic.support.netio.server.netty.NettyTimeStampEchoServer;
 
 public class IOServerBootstrap {
-	public static final int PORT = 9009;
 	private static final Logger log = LoggerFactory.getLogger(IOServerBootstrap.class);
-	private static IOServer SERVER = null;
+	public static final int DEFAULT_PORT = 9009;
+	private static IOServer server = null;
 	private static String DEFAULT_SERVER_CLASSNAME = NettyTimeStampEchoServer.class.getName();
 
-	// com.generic.support.netio.server.netty.NettyTimeStampEchoServer
-	// com.generic.support.netio.server.bio.BioTimeStampEchoServer
-
-	public static void main(String[] args) {
+	private int port;
+	
+	public void boot(String[] args){
 		initServer(args);
-		log.info(String.format("start %s %d", SERVER.getClass().getSimpleName(), PORT));
+		log.info(String.format("start %s %d", server.getClass().getSimpleName(), port));
 		try {
-			SERVER.start(PORT);
-			log.info(String.format("%s listen %d", SERVER.getClass().getSimpleName(), PORT));
+			server.start(port);
+			log.info(String.format("%s listen %d", server.getClass().getSimpleName(), port));
 		} catch (Exception e) {
 			log.error("", e);
 		}
-
 	}
-
-	private static void initServer(String[] args) {
+	
+	private void initServer(String[] args) {
 		String serverClassName = DEFAULT_SERVER_CLASSNAME;
 		if (args.length > 0) {
 			serverClassName = args[0];
 		}
 		try {
 			Class<?> serverClass = Class.forName(serverClassName);
-			SERVER = (IOServer) serverClass.newInstance();
+			server = (IOServer) serverClass.newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+
+		String sPort = System.getProperty("port");
+		if (sPort != null && sPort.trim().length() > 0) {
+			port = Integer.parseInt(sPort);
+		}else{
+			port = DEFAULT_PORT;
+		}
 	}
+	
+
+	// com.generic.support.netio.server.netty.NettyTimeStampEchoServer
+	// com.generic.support.netio.server.bio.BioTimeStampEchoServer
+
+	public static void main(String[] args) {
+		new IOServerBootstrap().boot(args);
+	}
+
+	
 
 }
