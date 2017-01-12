@@ -18,6 +18,7 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 	private int times;
 	private String host;
 	private int port;
+	String lineSeparator = System.getProperty("line.separator");
 
 	private SentenceGenerator sentenceGenerator = new SentenceGenerator();
 
@@ -44,6 +45,8 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 				String line = sentenceGenerator.generate();
 				printer.print(line);
 				printer.println();
+				printer.print(new String());
+				
 				printer.flush();
 				log.debug("SEND \t" + i + " >>> " + line);
 				String revLine = reader.readLine();
