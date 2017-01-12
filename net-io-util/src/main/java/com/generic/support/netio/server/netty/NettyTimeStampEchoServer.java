@@ -82,9 +82,15 @@ public class NettyTimeStampEchoServer implements IOServer {
 			msg.readBytes(buf);
 			String recvMsg = new String(buf, "UTF-8");
 			log.debug(Thread.currentThread().getName() + " - RECV " + counter.incrementAndGet() + ":" + recvMsg);
+			sendEchoMessage(ctx,recvMsg);
+		}
+		
+		protected void sendEchoMessage(ChannelHandlerContext ctx,String recvMsg) throws Exception{
 			EchoMessage echoMsg = echoMessageFactory.create(recvMsg);
 			ByteBuf resp = Unpooled.copiedBuffer(echoMsg.toString().getBytes("UTF-8"));
 			ctx.write(resp);
+			ByteBuf delimitersBuf = Unpooled.copiedBuffer(LINE_SEPARATOR.getBytes(STRING_ENCODING));
+			ctx.write(delimitersBuf);
 		}
 
 		@Override
