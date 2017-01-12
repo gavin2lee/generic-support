@@ -182,6 +182,7 @@
 						<version>${exec.plugin.version}</version>
 						<executions>
 							<execution>
+								<phase>install</phase>
 								<goals>
 									<goal>java</goal>
 								</goals>
@@ -213,6 +214,7 @@
 						<version>${exec.plugin.version}</version>
 						<executions>
 							<execution>
+								<phase>install</phase>
 								<goals>
 									<goal>exec</goal>
 								</goals>
