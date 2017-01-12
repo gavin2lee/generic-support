@@ -191,7 +191,7 @@
 						<configuration>
 							<mainClass>com.generic.support.netio.bootstrap.IOServerBootstrap</mainClass>
 							<arguments>
-								<argument>com.generic.support.netio.server.netty.NettyTimeStampEchoServer</argument>
+								<argument>${support.netio.bootstrap.server.classname}</argument>
 							</arguments>
 							<systemProperties>
 								<systemProperty>
@@ -232,7 +232,7 @@
 								<classpath />
 
 								<argument>com.generic.support.netio.bootstrap.IOClientBootstrap</argument>
-								<argument>com.generic.support.netio.client.bio.BioTimeStampEchoClient</argument>
+								<argument>${support.netio.bootstrap.client.classname}</argument>
 							</arguments>
 						</configuration>
 					</plugin>
