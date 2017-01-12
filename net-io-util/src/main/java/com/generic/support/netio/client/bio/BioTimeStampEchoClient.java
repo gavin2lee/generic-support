@@ -45,7 +45,7 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 				String line = sentenceGenerator.generate();
 				printer.print(line);
 				printer.println();
-				printer.print(new String());
+				printer.print(new String(System.getProperty("line.separator").getBytes(STRING_ENCODING)));
 				
 				printer.flush();
 				log.debug("SEND \t" + i + " >>> " + line);
