@@ -17,7 +17,7 @@ fi
 
 echo $EXECUTOR
 
-EXECUTOR="$JAVA_HOME/bin/java.exe"
+EXECUTOR="$JAVA_HOME/bin/java"
 
 #echo $JAVA_HOME
 
