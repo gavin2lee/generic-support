@@ -13,7 +13,7 @@ import com.generic.support.netio.client.bio.BioTimeStampEchoClient;
 public class IOClientBootstrap {
 	private static final Logger log = LoggerFactory.getLogger(IOClientBootstrap.class);
 	private String defaultHost = "localhost";
-	private String defaultPort = "9009";
+	private String defaultPort = "9008";
 	private String defaultThreads = "1";
 	private String defaultTimes = "1";
 
@@ -27,6 +27,7 @@ public class IOClientBootstrap {
 
 	//com.generic.support.netio.client.bio.BioTimeStampEchoClient
 	//com.generic.support.netio.client.netty.NettyTimeStampEchoClient
+	//com.generic.support.netio.client.netty.NettyLoginClient
 	public void boot() {
 		setInitParams();
 		log.debug(String.format("%s [host:%s,port:%d,times:%d]", clientClass.getSimpleName(), host, port,
@@ -38,7 +39,6 @@ public class IOClientBootstrap {
 			throw new RuntimeException(e);
 		}
 		for (int i = 0; i < threads; i++) {
-//			IOClient client = new BioTimeStampEchoClient(host, port, times);
 			IOClient client;
 			try {
 				client = (IOClient) constructor.newInstance(host,port,times);

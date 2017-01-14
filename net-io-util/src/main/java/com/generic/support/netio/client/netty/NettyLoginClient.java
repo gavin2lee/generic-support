@@ -1,5 +1,8 @@
 package com.generic.support.netio.client.netty;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +16,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -20,9 +24,13 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class NettyLoginClient extends AbstractMultipleIOClient {
 	private static final Logger log = LoggerFactory.getLogger(NettyLoginClient.class);
+	private static final AtomicLong totalSendAmount = new AtomicLong();
+	private static final AtomicInteger clientAmount = new AtomicInteger();
 
 	public NettyLoginClient(String host, int port, int times) {
 		super(host, port, times);
+		log.debug(NettyLoginClient.class.getSimpleName() + " initializing...");
+		clientAmount.incrementAndGet();
 	}
 
 	@Override
@@ -36,6 +44,7 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 			client.group(clientGroup);
 
 			client.channel(NioSocketChannel.class);
+			client.option(ChannelOption.TCP_NODELAY, true);
 			client.handler(new NettyLoginClientChannelInitializer());
 
 			ChannelFuture cf = client.connect(getHost(), getPort()).sync();
@@ -66,6 +75,7 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 			log.debug("channelActive");
 			sendRequest(ctx);
 			ctx.flush();
+			super.channelActive(ctx);
 		}
 
 		@Override
@@ -77,6 +87,14 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 		@Override
 		public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 			log.debug("channelReadComplete");
+			while(totalSendAmount.get() > getTimes()){
+				log.warn(String.format("send counter:%d - maxtimes:%d - going to close.", totalSendAmount.get(), getTimes()));
+				ctx.flush();
+				ctx.disconnect();
+				ctx.close();
+				
+				return;
+			}
 			sendRequest(ctx);
 			ctx.flush();
 		}
@@ -93,6 +111,7 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 			req.setPassword("abc123");
 			
 			ctx.write(req);
+			totalSendAmount.incrementAndGet();
 		}
 		
 	}

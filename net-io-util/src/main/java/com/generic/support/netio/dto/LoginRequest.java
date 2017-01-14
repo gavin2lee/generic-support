@@ -1,5 +1,8 @@
 package com.generic.support.netio.dto;
 
+import org.msgpack.annotation.Message;
+
+@Message
 public class LoginRequest {
 	private String username;
 	private String password;

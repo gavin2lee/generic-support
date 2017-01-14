@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.msgpack.annotation.Message;
+
+@Message
 public class LoginResponse {
 	private long userid;
 	private String username;
