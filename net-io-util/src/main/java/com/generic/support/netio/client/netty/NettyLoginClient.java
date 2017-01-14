@@ -25,12 +25,13 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class NettyLoginClient extends AbstractMultipleIOClient {
 	private static final Logger log = LoggerFactory.getLogger(NettyLoginClient.class);
 	private static final AtomicLong totalSendAmount = new AtomicLong();
+	private static final AtomicLong totalReceiveAmount = new AtomicLong();
 	private static final AtomicInteger clientAmount = new AtomicInteger();
 
 	public NettyLoginClient(String host, int port, int times) {
 		super(host, port, times);
-		clientAmount.incrementAndGet();
-		log.debug(NettyLoginClient.class.getSimpleName() + " - " + clientAmount.get() + " - " + " initializing...");
+		int index = clientAmount.incrementAndGet();
+		log.debug(NettyLoginClient.class.getSimpleName() + " - " + index + " - " + " initializing...");
 	}
 
 	@Override
@@ -82,7 +83,7 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 		public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 			log.debug("channelRead");
 			log.debug("recv type:" + msg.getClass().getName());
-			log.debug(String.format("%s RECV %s <<< : %s", Thread.currentThread().getName(), totalSendAmount.get(), msg));
+			log.debug(String.format("%s RECV %s <<< : %s", Thread.currentThread().getName(), totalReceiveAmount.incrementAndGet(), msg));
 		}
 
 		@Override
@@ -99,25 +100,33 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 		}
 
 		protected void sendRequest(ChannelHandlerContext ctx) {
+			
+			if(totalSendAmount.get() >= getTimes()){
+				log.warn(String.format("%s - send amount:%d - maxtimes:%d - going to close.",
+						Thread.currentThread().getName(), totalSendAmount.get(), getTimes()));
+				ctx.flush();
+				ctx.disconnect();
+				ctx.close();
+				return;
+			}
 			LoginRequest req = new LoginRequest();
 			req.setUsername("test");
 			req.setPassword("abc123");
 			req.setClientIdentity(Thread.currentThread().getName());
 
-			totalSendAmount.incrementAndGet();
-			while (totalSendAmount.get() < getTimes()) {
-				ctx.write(req);
-				log.debug(String.format("%s SEND %s >>> : %s", Thread.currentThread().getName(), totalSendAmount.get(), req));
-				return;
-			}
-
-			log.warn(String.format("%s - send amount:%d - maxtimes:%d - going to close.",
-					Thread.currentThread().getName(), totalSendAmount.get(), getTimes()));
-			ctx.flush();
-			ctx.disconnect();
-			ctx.close();
-
-			return;
+			long amount = totalSendAmount.get();
+			while ( amount < getTimes()) {
+				if(totalSendAmount.compareAndSet(amount, ++amount)){
+//					amount++;
+					ctx.write(req);
+					log.debug(String.format("%s SEND %s >>> : %s", Thread.currentThread().getName(), amount, req));
+					return;
+				}else{
+					amount = totalSendAmount.get();
+					continue;
+				}
+				
+			}			
 
 		}
 
