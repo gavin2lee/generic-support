@@ -9,23 +9,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.generic.support.netio.bean.SentenceGenerator;
-import com.generic.support.netio.client.AbstractIOClient;
+import com.generic.support.netio.client.AbstractMultipleIOClient;
 import com.generic.support.netio.server.IOServer;
 
-public class BioTimeStampEchoClient extends AbstractIOClient {
+public class BioTimeStampEchoClient extends AbstractMultipleIOClient {
 	private static int DEFAULT_TIMES = 1;
 	private static final Logger log = LoggerFactory.getLogger(BioTimeStampEchoClient.class);
-	private int times;
-	private String host;
-	private int port;
+
 	String lineSeparator = System.getProperty("line.separator");
 
 	private SentenceGenerator sentenceGenerator = new SentenceGenerator();
 
 	public BioTimeStampEchoClient(String host, int port, int times) {
-		this.host = host;
-		this.port = port;
-		this.times = times;
+		super(host,port,times);
 	}
 
 	public BioTimeStampEchoClient(String host, int port) {
@@ -35,13 +31,13 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 	@Override
 	public void kickoff() throws Exception {
 		long st = System.currentTimeMillis();
-		Socket client = new Socket(host, port);
+		Socket client = new Socket(getHost(), getPort());
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
 		PrintStream printer = new PrintStream(client.getOutputStream());
 		try {
-			for (int i = 0; i < times; i++) {
+			for (int i = 0; i < getTimes(); i++) {
 				String line = sentenceGenerator.generate();
 				printer.print(line);
 //				printer.println();
@@ -64,30 +60,6 @@ public class BioTimeStampEchoClient extends AbstractIOClient {
 		long end = System.currentTimeMillis();
 		log.info("TIME ELAPSE:" + ((end-st)/1000.0) + " seconds");
 
-	}
-
-	protected int getTimes() {
-		return times;
-	}
-
-	protected void setTimes(int times) {
-		this.times = times;
-	}
-
-	protected String getHost() {
-		return host;
-	}
-
-	protected void setHost(String host) {
-		this.host = host;
-	}
-
-	protected int getPort() {
-		return port;
-	}
-
-	protected void setPort(int port) {
-		this.port = port;
 	}
 
 	protected SentenceGenerator getSentenceGenerator() {
