@@ -10,6 +10,8 @@ import org.msgpack.annotation.Message;
 public class LoginResponse {
 	private long userid;
 	private String username;
+	private String clientIdentity;
+	private String serverIdentity;
 	private List<String> roles = new ArrayList<String>();
 
 	public long getUserid() {
@@ -28,12 +30,34 @@ public class LoginResponse {
 		this.username = username;
 	}
 
+	public String getClientIdentity() {
+		return clientIdentity;
+	}
+
+	public void setClientIdentity(String clientIdentity) {
+		this.clientIdentity = clientIdentity;
+	}
+
+	public String getServerIdentity() {
+		return serverIdentity;
+	}
+
+	public void setServerIdentity(String serverIdentity) {
+		this.serverIdentity = serverIdentity;
+	}
+
 	public List<String> getRoles() {
 		return Collections.unmodifiableList(roles);
 	}
 
 	public void setRoles(List<String> roles) {
 		this.roles.addAll(roles);
+	}
+
+	@Override
+	public String toString() {
+		return "LoginResponse [userid=" + userid + ", username=" + username + ", clientIdentity=" + clientIdentity
+				+ ", serverIdentity=" + serverIdentity + ", roles=" + roles + "]";
 	}
 
 }

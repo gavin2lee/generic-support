@@ -6,6 +6,8 @@ import org.msgpack.annotation.Message;
 public class LoginRequest {
 	private String username;
 	private String password;
+	
+	private String clientIdentity;
 
 	public String getUsername() {
 		return username;
@@ -23,9 +25,18 @@ public class LoginRequest {
 		this.password = password;
 	}
 
+	public String getClientIdentity() {
+		return clientIdentity;
+	}
+
+	public void setClientIdentity(String clientIdentity) {
+		this.clientIdentity = clientIdentity;
+	}
+
 	@Override
 	public String toString() {
-		return "LoginRequest [username=" + username + ", password=" + password + "]";
+		return "LoginRequest [username=" + username + ", password=" + password + ", clientIdentity=" + clientIdentity
+				+ "]";
 	}
 
 }

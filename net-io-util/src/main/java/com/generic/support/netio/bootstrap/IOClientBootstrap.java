@@ -3,6 +3,8 @@ package com.generic.support.netio.bootstrap;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,7 @@ public class IOClientBootstrap {
 		} catch (NoSuchMethodException | SecurityException e) {
 			throw new RuntimeException(e);
 		}
+		List<Thread> childThreads = new LinkedList<Thread>();
 		for (int i = 0; i < threads; i++) {
 			IOClient client;
 			try {
@@ -46,11 +49,15 @@ public class IOClientBootstrap {
 				throw new RuntimeException(cause);
 			}
 			Thread t = new Thread(client);
+			childThreads.add(t);
 			t.start();
+		}
+		
+		for(Thread childThread : childThreads){
 			try {
-				t.join();
+				childThread.join();
 			} catch (InterruptedException e) {
-				log.error("", e);
+				log.warn(e.getMessage(), e);
 			}
 		}
 	}

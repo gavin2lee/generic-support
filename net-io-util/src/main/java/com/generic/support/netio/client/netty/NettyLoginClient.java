@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.generic.support.netio.client.AbstractMultipleIOClient;
-import com.generic.support.netio.coder.MessagePackDecoder;
+import com.generic.support.netio.coder.MessagePackClientDecoder;
 import com.generic.support.netio.coder.MessagePackEncoder;
 import com.generic.support.netio.dto.LoginRequest;
 
@@ -29,8 +29,8 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 
 	public NettyLoginClient(String host, int port, int times) {
 		super(host, port, times);
-		log.debug(NettyLoginClient.class.getSimpleName() + " initializing...");
 		clientAmount.incrementAndGet();
+		log.debug(NettyLoginClient.class.getSimpleName() + " - " + clientAmount.get() + " - " + " initializing...");
 	}
 
 	@Override
@@ -59,16 +59,16 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
-			
-			ch.pipeline().addLast("messagePackDecoder", new MessagePackDecoder());
+
+			ch.pipeline().addLast("messagePackDecoder", new MessagePackClientDecoder());
 			ch.pipeline().addLast("messagePackEncoder", new MessagePackEncoder());
-			
+
 			ch.pipeline().addLast(new NettyLoginClientHandler());
 		}
 
 	}
-	
-	public class NettyLoginClientHandler extends ChannelInboundHandlerAdapter{
+
+	public class NettyLoginClientHandler extends ChannelInboundHandlerAdapter {
 
 		@Override
 		public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -81,39 +81,46 @@ public class NettyLoginClient extends AbstractMultipleIOClient {
 		@Override
 		public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 			log.debug("channelRead");
-			log.debug("recv type:"+msg.getClass().getName());
+			log.debug("recv type:" + msg.getClass().getName());
+			log.debug(String.format("%s RECV %s <<< : %s", Thread.currentThread().getName(), totalSendAmount.get(), msg));
 		}
 
 		@Override
 		public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 			log.debug("channelReadComplete");
-			while(totalSendAmount.get() > getTimes()){
-				log.warn(String.format("send counter:%d - maxtimes:%d - going to close.", totalSendAmount.get(), getTimes()));
-				ctx.flush();
-				ctx.disconnect();
-				ctx.close();
-				
-				return;
-			}
 			sendRequest(ctx);
 			ctx.flush();
 		}
 
 		@Override
 		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-			log.error(cause.getMessage(),cause);
+			log.error(cause.getMessage(), cause);
 			ctx.close();
 		}
-		
-		protected void sendRequest(ChannelHandlerContext ctx){
+
+		protected void sendRequest(ChannelHandlerContext ctx) {
 			LoginRequest req = new LoginRequest();
 			req.setUsername("test");
 			req.setPassword("abc123");
-			
-			ctx.write(req);
+			req.setClientIdentity(Thread.currentThread().getName());
+
 			totalSendAmount.incrementAndGet();
+			while (totalSendAmount.get() < getTimes()) {
+				ctx.write(req);
+				log.debug(String.format("%s SEND %s >>> : %s", Thread.currentThread().getName(), totalSendAmount.get(), req));
+				return;
+			}
+
+			log.warn(String.format("%s - send amount:%d - maxtimes:%d - going to close.",
+					Thread.currentThread().getName(), totalSendAmount.get(), getTimes()));
+			ctx.flush();
+			ctx.disconnect();
+			ctx.close();
+
+			return;
+
 		}
-		
+
 	}
 
 }
