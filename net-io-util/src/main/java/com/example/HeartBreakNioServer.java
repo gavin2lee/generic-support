@@ -1,4 +1,4 @@
-package com.generic.support.netio.netty.example;
+package com.example;
 
 import java.io.ByteArrayOutputStream;
 import java.net.InetSocketAddress;

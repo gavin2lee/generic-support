@@ -1,4 +1,4 @@
-package com.generic.support.netio.netty.example;
+package com.example;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
