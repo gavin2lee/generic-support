@@ -3,18 +3,16 @@ package com.generic.support.netio.server.netty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.generic.support.netio.handler.NettyHttpFileServerHandler;
 import com.generic.support.netio.server.IOServer;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
@@ -67,15 +65,6 @@ public class NettyHttpFileServer implements IOServer {
 		
 			ch.pipeline().addLast("httpChunked", new ChunkedWriteHandler());
 			ch.pipeline().addLast("fileServerHandler", new NettyHttpFileServerHandler());
-			
-		}
-		
-	}
-	
-	public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest>{
-
-		@Override
-		protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
 			
 		}
 		
