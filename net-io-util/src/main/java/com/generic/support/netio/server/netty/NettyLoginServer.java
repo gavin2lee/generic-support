@@ -22,6 +22,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
 
 public class NettyLoginServer implements IOServer {
 	private static final Logger log = LoggerFactory.getLogger(NettyLoginServer.class);
@@ -54,8 +56,12 @@ public class NettyLoginServer implements IOServer {
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
+			
+			ch.pipeline().addLast("frameDecoder", new LengthFieldBasedFrameDecoder(65535, 0, 2,0,2));
 
 			ch.pipeline().addLast("messagePackDecoder", new MessagePackServerDecoder());
+			
+			ch.pipeline().addLast("frameEncoder", new LengthFieldPrepender(2));
 			ch.pipeline().addLast("messagePackEncoder", new MessagePackEncoder());
 			
 			ch.pipeline().addLast(new NettyLoginServerHandler());

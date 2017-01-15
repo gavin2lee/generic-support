@@ -21,6 +21,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
 
 public class NettyLoginOnceClient extends AbstractMultipleIOClient {
 	private static final Logger log = LoggerFactory.getLogger(NettyLoginOnceClient.class);
@@ -60,8 +62,12 @@ public class NettyLoginOnceClient extends AbstractMultipleIOClient {
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
+			ch.pipeline().addLast("frameDecoder", new LengthFieldBasedFrameDecoder(65535, 0, 2,0,2));
 
 			ch.pipeline().addLast("messagePackDecoder", new MessagePackClientDecoder());
+			
+			ch.pipeline().addLast("frameEncoder", new LengthFieldPrepender(2));
+			
 			ch.pipeline().addLast("messagePackEncoder", new MessagePackEncoder());
 
 			ch.pipeline().addLast(new NettyLoginClientHandler());
@@ -93,6 +99,14 @@ public class NettyLoginOnceClient extends AbstractMultipleIOClient {
 			log.debug("channelReadComplete");
 //			sendRequest(ctx);
 //			ctx.flush();
+			
+			if(totalReceiveAmount.get() >= getTimes()){
+				log.warn(String.format("%s - recv amount:%d - maxtimes:%d - going to close.",
+						Thread.currentThread().getName(), totalReceiveAmount.get(), getTimes()));
+				ctx.flush();
+				ctx.disconnect();
+				ctx.close();
+			}
 		}
 
 		@Override
@@ -103,23 +117,18 @@ public class NettyLoginOnceClient extends AbstractMultipleIOClient {
 
 		protected boolean sendRequest(ChannelHandlerContext ctx) {
 			
-			if(totalSendAmount.get() >= getTimes()){
-				log.warn(String.format("%s - send amount:%d - maxtimes:%d - going to close.",
-						Thread.currentThread().getName(), totalSendAmount.get(), getTimes()));
-				ctx.flush();
-				ctx.disconnect();
-				ctx.close();
-				return false;
-			}
-			LoginRequest req = new LoginRequest();
-			req.setUsername("test");
-			req.setPassword("abc123");
-			req.setClientIdentity(Thread.currentThread().getName());
+			
+			
 
 			long amount = totalSendAmount.get();
 			while ( amount < getTimes()) {
 				if(totalSendAmount.compareAndSet(amount, ++amount)){
 //					amount++;
+					LoginRequest req = new LoginRequest();
+					req.setUsername("test-"+amount);
+					req.setPassword(String.valueOf(System.nanoTime()));
+					req.setClientIdentity(Thread.currentThread().getName());
+					
 					ctx.write(req);
 					log.debug(String.format("%s SEND %s >>> : %s", Thread.currentThread().getName(), amount, req));
 					return true;
