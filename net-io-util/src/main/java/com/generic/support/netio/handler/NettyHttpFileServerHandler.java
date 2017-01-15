@@ -93,7 +93,7 @@ public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<Full
 		}
 		RandomAccessFile randomAccessFile = null;
 		try {
-			randomAccessFile = new RandomAccessFile(file, "r");// 以只读的方式打开文件
+			randomAccessFile = new RandomAccessFile(file, "r");
 		} catch (FileNotFoundException fnfe) {
 			sendError(ctx, NOT_FOUND);
 			return;
@@ -193,9 +193,9 @@ public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<Full
 				continue;
 			}
 			String name = f.getName();
-			if (!ALLOWED_FILE_NAME.matcher(name).matches()) {
-				continue;
-			}
+//			if (!ALLOWED_FILE_NAME.matcher(name).matches()) {
+//				continue;
+//			}
 			buf.append("<li>链接：<a href=\"");
 			buf.append(name);
 			buf.append("\">");
