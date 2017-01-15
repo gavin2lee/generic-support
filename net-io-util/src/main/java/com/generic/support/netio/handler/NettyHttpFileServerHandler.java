@@ -47,7 +47,8 @@ import io.netty.util.CharsetUtil;
 public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 	private static final Logger log = LoggerFactory.getLogger(NettyHttpFileServerHandler.class);
 	private static final Pattern INSECURE_URI = Pattern.compile(".*[<>&\"].*");
-	private static final Pattern ALLOWED_FILE_NAME = Pattern.compile("[A-Za-z0-9][-_A-Za-z0-9\\.]*");
+	// private static final Pattern ALLOWED_FILE_NAME =
+	// Pattern.compile("[A-Za-z0-9][-_A-Za-z0-9\\.]*");
 	private String pathContext = "/fs";
 
 	private String baseDir = "/home/gavin";
@@ -106,8 +107,8 @@ public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<Full
 			response.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
 		}
 		ctx.write(response);
-		ChannelFuture sendFileFuture;
-		sendFileFuture = ctx.write(new ChunkedFile(randomAccessFile, 0, fileLength, 8192), ctx.newProgressivePromise());
+		ChannelFuture sendFileFuture = ctx.write(new ChunkedFile(randomAccessFile, 0, fileLength, 8192),
+				ctx.newProgressivePromise());
 		sendFileFuture.addListener(new ChannelProgressiveFutureListener() {
 			@Override
 			public void operationProgressed(ChannelProgressiveFuture future, long progress, long total) {
@@ -193,9 +194,9 @@ public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<Full
 				continue;
 			}
 			String name = f.getName();
-//			if (!ALLOWED_FILE_NAME.matcher(name).matches()) {
-//				continue;
-//			}
+			// if (!ALLOWED_FILE_NAME.matcher(name).matches()) {
+			// continue;
+			// }
 			buf.append("<li>链接：<a href=\"");
 			buf.append(name);
 			buf.append("\">");
