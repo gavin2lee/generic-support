@@ -35,6 +35,9 @@ public class NettyHttpFileServer implements IOServer {
 			
 			
 			ChannelFuture cf = server.bind(port).sync();
+			
+			log.info(String.format("LISTEN %s", port));
+			
 			cf.channel().closeFuture().sync();
 			
 		}finally{
