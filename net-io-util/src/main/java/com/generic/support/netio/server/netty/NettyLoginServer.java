@@ -1,5 +1,6 @@
 package com.generic.support.netio.server.netty;
 
+import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.generic.support.netio.coder.MessagePackEncoder;
 import com.generic.support.netio.coder.MessagePackServerDecoder;
+import com.generic.support.netio.dto.LoginRequest;
 import com.generic.support.netio.dto.LoginResponse;
 import com.generic.support.netio.server.IOServer;
 
@@ -24,6 +26,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 public class NettyLoginServer implements IOServer {
 	private static final Logger log = LoggerFactory.getLogger(NettyLoginServer.class);
 	private final AtomicLong totalRecvMsgAmount = new AtomicLong();
+	private final AtomicLong idGenerator = new AtomicLong();
 
 	@Override
 	public void start(int port) throws Exception {
@@ -91,12 +94,14 @@ public class NettyLoginServer implements IOServer {
 			log.debug("channelRead");
 			log.debug("recv type: "+msg.getClass().getName());
 			log.debug(String.format("server %s %s RECV: %s", Thread.currentThread().getName(), totalRecvMsgAmount.incrementAndGet(), msg));
+			
+			
+			writeBack(ctx, msg);
 		}
 
 		@Override
 		public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 			log.debug("channelReadComplete");
-			writeBack(ctx);
 			ctx.flush();
 		}
 
@@ -106,13 +111,20 @@ public class NettyLoginServer implements IOServer {
 			ctx.close();
 		}
 		
-		protected void writeBack(ChannelHandlerContext ctx){
+		protected void writeBack(ChannelHandlerContext ctx, Object msg){
+			LoginRequest req = (LoginRequest)msg;
 			LoginResponse resp = new LoginResponse();
-			resp.setUserid(1L);
-			resp.setUsername("server-1");
+			resp.setUserid(idGenerator.incrementAndGet());
+			resp.setUsername(req.getUsername());
 			resp.setServerIdentity(Thread.currentThread().getName());
 			resp.setRoles(Arrays.asList(new String[]{"user", "admin"}));
 			
+			SocketAddress remoteAddr = ctx.channel().remoteAddress();
+			String remoteIp = remoteAddr.toString();
+			
+			resp.setRemoteAgent("pc");
+			resp.setRemoteIp(remoteIp);
+			resp.setClientIdentity(req.getClientIdentity());
 			ctx.write(resp);
 		}
 		
