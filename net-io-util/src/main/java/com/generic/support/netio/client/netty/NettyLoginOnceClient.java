@@ -97,9 +97,13 @@ public class NettyLoginOnceClient extends AbstractMultipleIOClient {
 		@Override
 		public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 			log.debug("channelReadComplete");
+			log.warn(String.format("%s - recv amount:%d - maxtimes:%d - going to close.",
+					Thread.currentThread().getName(), totalReceiveAmount.get(), getTimes()));
+			ctx.disconnect();
+			ctx.close();
 //			sendRequest(ctx);
 //			ctx.flush();
-			
+			/*
 			if(totalReceiveAmount.get() >= getTimes()){
 				log.warn(String.format("%s - recv amount:%d - maxtimes:%d - going to close.",
 						Thread.currentThread().getName(), totalReceiveAmount.get(), getTimes()));
@@ -107,6 +111,7 @@ public class NettyLoginOnceClient extends AbstractMultipleIOClient {
 				ctx.disconnect();
 				ctx.close();
 			}
+			*/
 		}
 
 		@Override
