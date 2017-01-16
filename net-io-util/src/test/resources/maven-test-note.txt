@@ -1,0 +1,17 @@
+maven是使用surefire插件执行测试的，它按照指定格式的类名来查找匹配的测试类，
+默认包含的测试类：
+**/*Test.java
+**/Test*.java
+**/*TestCase.java
+默认排除的测试类：
+**/Abstract*Test.java
+**/Abstract*TestCase.java
+
+运行指定的测试类：
+    >mvn test -Dtest=[ClassName]
+
+运行测试类中指定的方法：(这个需要maven-surefire-plugin:2.7.3以上版本才能支持)
+    >mvn test -Dtest=[ClassName]#[MethodName]
+    [MethodName]为要运行的方法名，支持*通配符，范例：
+   1） >mvn test -Dtest=MyClassTest#test1
+   2） >mvn test -Dtest=MyClassTest#*test*

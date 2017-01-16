@@ -8,8 +8,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WindowsFileOperations {
-	private static final Logger log = LoggerFactory.getLogger(WindowsFileOperations.class);
+
+public class WindowsFileOperationsTest {
+	private static final Logger log = LoggerFactory.getLogger(WindowsFileOperationsTest.class);
 
 	@Test
 	public void testListDisk(){
