@@ -52,6 +52,13 @@ public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<Full
 	private String pathContext = "/fs";
 
 	private String baseDir = "/home/gavin";
+	
+	public NettyHttpFileServerHandler(){
+		String dynamicBaseDir = System.getProperty("basedir");
+		if(dynamicBaseDir != null && dynamicBaseDir.trim().length() > 0){
+			baseDir = dynamicBaseDir.trim();
+		}
+	}
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
