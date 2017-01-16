@@ -12,6 +12,7 @@ public class WindowsFileOperations {
 	@Test
 	public void testListDisk(){
 		String baseDir = "D";
+		log.debug("list all children files under "+baseDir);
 		File dir = new File(baseDir);
 		for(File childF : dir.listFiles()){
 			log.debug(childF.getName());
