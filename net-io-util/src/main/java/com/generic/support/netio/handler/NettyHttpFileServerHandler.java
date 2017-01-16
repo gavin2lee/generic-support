@@ -54,7 +54,7 @@ public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<Full
 	private String baseDir = "/home/gavin";
 	
 	public NettyHttpFileServerHandler(){
-		String dynamicBaseDir = System.getProperty("basedir");
+		String dynamicBaseDir = System.getProperty("fileBaseDir");
 		if(dynamicBaseDir != null && dynamicBaseDir.trim().length() > 0){
 			baseDir = dynamicBaseDir.trim();
 		}
@@ -83,10 +83,19 @@ public class NettyHttpFileServerHandler extends SimpleChannelInboundHandler<Full
 		}
 
 		File file = new File(path);
-		if (file.isHidden() || !file.exists()) {
+		if (!file.exists()) {
+		    log.error(String.format("%s exists:%s", path,  file.exists()));
 			sendError(ctx, NOT_FOUND);
 			return;
 		}
+		
+//		if (file.isHidden()) {
+//            log.error(String.format("%s isHidden:%s", path, file.isHidden()));
+//            sendError(ctx, NOT_FOUND);
+//            return;
+//        }
+		
+		
 		if (file.isDirectory()) {
 			if (uri.endsWith("/")) {
 				sendList(ctx, file);
