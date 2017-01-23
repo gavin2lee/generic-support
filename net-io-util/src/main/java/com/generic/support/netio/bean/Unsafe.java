@@ -81,7 +81,8 @@ public final class Unsafe {
      *             access to the system properties.
      */
     public static Unsafe getUnsafe() {
-        Class cc = sun.reflect.Reflection.getCallerClass(2);
+        @SuppressWarnings("restriction")
+		Class cc = sun.reflect.Reflection.getCallerClass(2);
         if (cc.getClassLoader() != null)
             throw new SecurityException("Unsafe");
         return theUnsafe;
