@@ -4,9 +4,9 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.generic.support</groupId>
-	<artifactId>servlet3-demo</artifactId>
+	<artifactId>chat-server</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>servlet3-demo</name>
+	<name>chat-server</name>
 	<packaging>war</packaging>
 	<url>http://maven.apache.org</url>
 	<dependencies>
@@ -110,7 +110,7 @@
 				<configuration>
 					<uriEncoding>UTF-8</uriEncoding>
 					<port>9009</port>
-					<path>/servlet3</path>
+					<path>/chat</path>
 				</configuration>
 			</plugin>
 
@@ -124,7 +124,7 @@
                     <stopPort>9999</stopPort>
                     <stopWait>10</stopWait>
                     <webApp>
-                    	<contextPath>/servlet3</contextPath>
+                    	<contextPath>/chat</contextPath>
                     </webApp>
                     <httpConnector>
                         <port>9009</port>
