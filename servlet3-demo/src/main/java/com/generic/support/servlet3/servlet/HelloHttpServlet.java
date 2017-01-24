@@ -1,6 +1,7 @@
 package com.generic.support.servlet3.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +26,9 @@ public class HelloHttpServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		log.debug("doGet");
-		super.doGet(req, resp);
+		PrintWriter pw = resp.getWriter();
+		pw.println(HelloHttpServlet.class.getName());
+		pw.close();
 	}
 
 	@Override
