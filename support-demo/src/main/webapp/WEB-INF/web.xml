@@ -73,10 +73,14 @@
 
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
-		<servlet-class>com.lachesis.support.restful.context.servlet.RestfulDispatcherServlet</servlet-class>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath*:spring/support-auth-demo-servlet.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detectAllHandlerMappings</param-name>
+			<param-value>false</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
